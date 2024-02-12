@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "1c43d92f-9074-46a4-8f23-9d97b947a61c",
+		"name": "Words.Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2658327"
+	},
+	"item": [
+		{
+			"name": "Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"   var token = pm.response.json()[\"access_token\"];",
+							"    pm.globals.set(\"token\", token);",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{wordsClientId}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "api.read",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseAuthUrl}}/connect/token",
+					"host": [
+						"{{baseAuthUrl}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"name\",\n    \"email\": \"\",\n    \"password\": \"\",\n    \"firstName\": \"\",\n    \"lastName\": \"\",\n    \"nickName\": \"\",\n    \"doB\": \"\",\n    \"countryCode\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseAuthUrl}}/api/user",
+					"host": [
+						"{{baseAuthUrl}}"
+					],
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		}
+	]
+}
